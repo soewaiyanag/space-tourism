@@ -14,101 +14,109 @@ const first = destinations[0];
   current="destination"
   bg="destination"
 >
-  <div class="container mx-auto px-2 sm:mt-10 xl:px-14">
-    <h1 class="uppercase font-barlow mb-8 text-center md:text-left">
-      <span class="text-gray-500 mr-2" aria-hidden="true">01</span>
-      pick your destination
+  <div class="flex flex-col items-start gap-6 p-6 md:p-10 lg:px-16 lg:py-12">
+    <h1 class="flex items-start gap-6 font-condensed uppercase tracking-[2.4px] text-white md:tracking-[3px] lg:tracking-[4px] w-full justify-center md:justify-start">
+      <span class="text-[16px] font-bold text-white/25 md:text-[20px] lg:text-[28px]" aria-hidden="true">01</span>
+      <span class="text-[16px] md:text-[20px] lg:text-[28px]">Pick your destination</span>
     </h1>
-    <section class="space-y-10 md:grid md:grid-cols-2">
-      <div class="md:grid md:place-items-center">
+
+    <div
+      class="
+        flex w-full flex-1 flex-col items-center justify-center gap-8
+        md:gap-8
+        lg:w-full lg:max-w-[1110px] lg:mx-auto lg:flex-row lg:items-center lg:gap-8
+      "
+    >
+      <div class="flex items-center justify-center lg:flex-1">
         <img
           id="planet-pic"
-          class="w-56 mx-auto md:w-[370px] transition-opacity"
+          class="size-[150px] transition-opacity md:size-[300px] lg:size-[480px]"
           src={`${base}${first.images.png}`}
           alt={first.name}
         />
       </div>
-      <div class="text-center mx-4 space-y-8 md:text-left md:ml-8">
-        <div
-          role="tablist"
-          aria-label="Destinations"
-          id="destination-tabs"
-          class="cursor-pointer uppercase font-barlow text-secondary flex gap-8 justify-center md:justify-start"
-        >
-          {
-            destinations.map((d, i) => (
-              <button
-                type="button"
-                role="tab"
-                id={`tab-${d.name.toLowerCase()}`}
-                aria-controls="destination-panel"
-                aria-selected={i === 0}
-                tabindex={i === 0 ? 0 : -1}
-                class:list={[
-                  "select-none pb-2 border-b-2",
-                  i === 0 ? "border-white" : "border-transparent",
-                ]}
-              >
-                {d.name}
-              </button>
-            ))
-          }
-        </div>
-        <div
-          id="destination-panel"
-          role="tabpanel"
-          aria-labelledby={`tab-${first.name.toLowerCase()}`}
-          class="space-y-8"
-        >
-          <div class="space-y-2">
-            <h1
-              id="planet-name"
-              class="uppercase text-7xl font-bellefair transition-opacity"
-            >
-              {first.name}
-            </h1>
-            <p
-              id="about-planet"
-              class="text-secondary font-barlow transition-opacity"
-            >
-              {first.description}
-            </p>
-          </div>
+
+      <div class="flex flex-1 flex-col items-center gap-10 lg:min-w-[445px] lg:items-start lg:justify-center">
+        <div class="flex w-full max-w-[445px] flex-col items-center gap-6 lg:items-start">
           <div
-            class="
-              space-y-8
-              border-t border-secondary
-              pt-8
-              pb-16
-              md:flex md:space-y-0 md:justify-start md:gap-10
-            "
+            role="tablist"
+            aria-label="Destinations"
+            id="destination-tabs"
+            class="flex cursor-pointer gap-8 font-condensed uppercase text-secondary"
           >
-            <div class="space-y-2">
-              <h2 class="tracking-widest text-sm uppercase font-barlow text-secondary">
-                avg. distance
-              </h2>
-              <h1
-                id="travel-distance"
-                class="uppercase font-bellefair text-3xl md:text-2xl transition-opacity"
+            {
+              destinations.map((d, i) => (
+                <button
+                  type="button"
+                  role="tab"
+                  id={`tab-${d.name.toLowerCase()}`}
+                  aria-controls="destination-panel"
+                  aria-selected={i === 0}
+                  tabindex={i === 0 ? 0 : -1}
+                  class:list={[
+                    "select-none border-b-3 pb-2 text-sm tracking-[2.1px] leading-none md:text-base md:tracking-[2px] lg:text-base",
+                    i === 0 ? "border-white text-white" : "border-transparent",
+                  ]}
+                >
+                  {d.name}
+                </button>
+              ))
+            }
+          </div>
+
+          <div
+            id="destination-panel"
+            role="tabpanel"
+            aria-labelledby={`tab-${first.name.toLowerCase()}`}
+            class="flex w-full flex-col items-center gap-6 text-center lg:items-start lg:text-left"
+          >
+            <div class="flex w-full flex-col items-center gap-4 text-center lg:items-start lg:text-left">
+              <h2
+                id="planet-name"
+                class="font-bellefair text-[56px] uppercase leading-none text-white transition-opacity md:text-[80px] lg:text-[96px]"
               >
-                {first.distance}
-              </h1>
+                {first.name}
+              </h2>
+              <p
+                id="about-planet"
+                class="text-[15px] leading-[1.8] text-secondary transition-opacity md:text-base lg:text-lg"
+              >
+                {first.description}
+              </p>
             </div>
-            <div class="space-y-2">
-              <h2 class="tracking-widest text-sm uppercase font-barlow text-secondary">
-                est. travel time
-              </h2>
-              <h1
-                id="travel-time"
-                class="uppercase font-bellefair text-3xl md:text-2xl transition-opacity"
-              >
-                {first.travel}
-              </h1>
+
+            <div class="h-px w-full bg-white/25" aria-hidden="true"></div>
+
+            <div
+              class="
+                flex w-full flex-col items-center gap-6 text-center uppercase
+                md:flex-row md:items-start md:gap-6 md:text-left
+                lg:flex-row lg:items-start lg:gap-6 lg:text-left
+              "
+            >
+              <div class="flex flex-1 flex-col items-center gap-3 md:items-start lg:items-start">
+                <p class="font-condensed text-sm tracking-[2px] text-secondary">avg. distance</p>
+                <p
+                  id="travel-distance"
+                  class="font-bellefair text-[28px] uppercase leading-none text-white transition-opacity"
+                >
+                  {first.distance}
+                </p>
+              </div>
+              <div class="flex flex-1 flex-col items-center gap-3 md:items-start lg:items-start">
+                <p class="font-condensed text-sm tracking-[2px] text-secondary">est. travel time</p>
+                <p
+                  id="travel-time"
+                  class="font-bellefair text-[28px] uppercase leading-none text-white transition-opacity"
+                >
+                  {first.travel}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 
   <script>
@@ -142,6 +150,7 @@ const first = destinations[0];
         panel.setAttribute("aria-labelledby", tabs[index].id);
         tabs.forEach((tab, i) => {
           tab.classList.toggle("border-white", i === index);
+          tab.classList.toggle("text-white", i === index);
           tab.classList.toggle("border-transparent", i !== index);
         });
       };

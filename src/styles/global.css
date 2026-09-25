@@ -3,12 +3,10 @@
 @theme {
   --color-primary: #0b0d17;
   --color-secondary: #d0d6f9;
-  --color-natural: #616476;
 
   --font-bellefair: "Bellefair", serif;
   --font-barlow: "Barlow", sans-serif;
-
-  --shadow-xl-white: 0px 0px 0px 34px rgba(255, 255, 255, 0.21);
+  --font-condensed: "Barlow Condensed", sans-serif;
 
   /*
    * Root-relative, so they must be kept in sync with the `base` in

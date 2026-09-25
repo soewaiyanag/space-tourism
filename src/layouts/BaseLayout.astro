@@ -13,10 +13,10 @@ interface Props {
 const { title, description, current, bg } = Astro.props;
 
 const bgClasses: Record<Props["bg"], string> = {
-  home: "bg-home-mobile sm:bg-home-tablet md:bg-home-desktop",
-  destination: "bg-destination-mobile sm:bg-destination-tablet md:bg-destination-desktop",
-  crew: "bg-crew-mobile sm:bg-crew-tablet md:bg-crew-desktop",
-  technology: "bg-technology-mobile sm:bg-technology-tablet md:bg-technology-desktop",
+  home: "bg-home-mobile md:bg-home-tablet lg:bg-home-desktop",
+  destination: "bg-destination-mobile md:bg-destination-tablet lg:bg-destination-desktop",
+  crew: "bg-crew-mobile md:bg-crew-tablet lg:bg-crew-desktop",
+  technology: "bg-technology-mobile md:bg-technology-tablet lg:bg-technology-desktop",
 };
 ---
 
@@ -30,7 +30,7 @@ const bgClasses: Record<Props["bg"], string> = {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bellefair&family=Barlow:ital,wght@0,300;0,500;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bellefair&family=Barlow:wght@400&family=Barlow+Condensed:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <title>{title} | Space tourism</title>

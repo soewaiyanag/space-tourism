@@ -9,47 +9,48 @@ import { base } from "../lib/base";
   current="home"
   bg="home"
 >
-  <div class="md:space-y-40">
-    <section class="container mx-auto space-y-12 px-10 md:grid md:grid-cols-2 xl:px-28">
-      <section class="text-center mt-10 md:text-left">
-        <header class="space-y-5">
-          <h5 class="font-barlow uppercase tracking-wider text-secondary">
-            So, you want to travel to
-          </h5>
-          <h1 class="uppercase text-[4rem] sm:text-7xl font-bellefair">Space</h1>
-        </header>
-        <p class="text-secondary sm:mt-5">
+  <div class="flex flex-1 flex-col items-center p-6 md:px-10 md:py-32 lg:py-32">
+    <div
+      class="
+        flex w-full flex-1 flex-col items-center justify-between gap-12
+        md:max-w-[512px] md:items-center md:justify-center md:gap-10
+        lg:max-w-[1110px] lg:flex-row lg:items-center lg:justify-between lg:gap-12
+      "
+    >
+      <div
+        class="
+          flex flex-col items-center gap-6 text-center
+          lg:max-w-[540px] lg:items-start lg:text-left
+        "
+      >
+        <p class="font-condensed uppercase tracking-[2.4px] text-secondary md:tracking-[4px] lg:tracking-[4px] md:text-[28px] lg:text-[28px]">
+          So, you want to travel to
+        </p>
+        <h1 class="font-bellefair text-[80px] uppercase leading-none text-white md:text-[144px] lg:text-[144px]">
+          Space
+        </h1>
+        <p class="text-[15px] leading-[1.8] text-secondary md:text-base lg:text-lg">
           Let&rsquo;s face it; if you want to go to space, you might as well genuinely go to
           outer space and not hover kind of on the edge of it. Well sit back, and relax
           because we&rsquo;ll give you a truly out of this world experience!
         </p>
-      </section>
-      <section class="grid md:justify-end md:items-end">
+      </div>
+
+      <div class="flex items-center justify-center lg:max-w-[540px] lg:flex-1 lg:justify-end">
         <a
           href={`${base}destination`}
           class="
-            cursor-pointer
-            select-none
-            mx-auto
-            grid
-            place-items-center
-            uppercase
-            font-bellefair font-medium
-            text-primary
-            h-40
-            sm:h-48
-            md:h-56
-            xl:h-60 xl:text-2xl
-            aspect-square
-            bg-white
-            transition-shadow
-            rounded-full
-            hover:shadow-xl-white
+            grid size-36 cursor-pointer select-none place-items-center rounded-full
+            bg-white font-bellefair text-lg uppercase text-primary
+            transition-shadow duration-300
+            hover:shadow-[0_0_0_34px_rgba(255,255,255,0.15)]
+            md:size-[272px] md:text-[32px]
+            lg:size-[272px] lg:text-[32px]
           "
         >
           Explore
         </a>
-      </section>
-    </section>
+      </div>
+    </div>
   </div>
 </BaseLayout>

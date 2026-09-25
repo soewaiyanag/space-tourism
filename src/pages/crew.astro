@@ -14,84 +14,73 @@ const first = crew[0];
   current="crew"
   bg="crew"
 >
-  <div class="pb-10 lg:min-h-screen lg:overflow-y-hidden">
-    <div class="container mx-auto px-4 sm:mt-10 xl:px-14">
-      <h1 class="uppercase font-barlow mb-8 text-center sm:text-left">
-        <span class="text-gray-500 mr-2" aria-hidden="true">02</span>
-        meet your crew
-      </h1>
-      <section class="sm:grid sm:gap-10 lg:grid-cols-2 lg:items-center lg:gap-0">
+  <div class="flex flex-col items-start gap-6 p-6 md:p-10 lg:px-16 lg:py-12">
+    <h1 class="flex w-full items-start justify-center gap-6 font-condensed uppercase tracking-[2.4px] text-white md:justify-start md:tracking-[3px] lg:justify-start lg:tracking-[4px]">
+      <span class="text-[16px] font-bold text-white/25 md:text-[20px] lg:text-[28px]" aria-hidden="true">02</span>
+      <span class="text-[16px] md:text-[20px] lg:text-[28px]">Meet your crew</span>
+    </h1>
+
+    <div
+      class="
+        flex w-full flex-1 flex-col items-center gap-8
+        md:gap-8
+        lg:mx-auto lg:max-w-[1110px] lg:flex-row lg:items-center lg:gap-8
+      "
+    >
+      <div class="order-2 flex w-full max-w-[512px] flex-col items-start gap-10 lg:order-1 lg:max-w-none lg:flex-1 lg:justify-center">
         <div
-          class="
-            border-b border-natural
-            sm:order-1 sm:border-none sm:h-96 sm:grid
-            lg:relative
-          "
+          id="crew-panel"
+          role="tabpanel"
+          aria-labelledby="tab-0"
+          class="flex w-full max-w-[640px] flex-col items-center gap-6 pt-10 text-center lg:items-start lg:pt-0 lg:text-left"
         >
-          <img
-            id="crew-img"
-            class="
-              w-56
-              mx-auto
-              transition-opacity
-              sm:w-auto sm:h-full sm:object-cover sm:mt-auto
-              lg:w-full lg:object-contain lg:min-h-[80vh]
-            "
-            src={`${base}${first.images.png}`}
-            alt={`${first.name}, ${first.role}`}
-          />
-        </div>
-        <div class="sm:grid">
-          <div
-            role="tablist"
-            aria-label="Crew members"
-            id="crew-tabs"
-            class="flex gap-4 justify-center mt-5 sm:order-1 lg:justify-start lg:absolute lg:bottom-20"
-          >
-            {
-              crew.map((member, i) => (
-                <button
-                  type="button"
-                  role="tab"
-                  id={`tab-${i}`}
-                  aria-controls="crew-panel"
-                  aria-selected={i === 0}
-                  aria-label={member.name}
-                  tabindex={i === 0 ? 0 : -1}
-                  class:list={[
-                    "cursor-pointer inline-block h-3 aspect-square rounded-full",
-                    i === 0 ? "bg-white" : "bg-natural",
-                  ]}
-                />
-              ))
-            }
-          </div>
-          <div
-            id="crew-panel"
-            role="tabpanel"
-            aria-labelledby="tab-0"
-            class="text-center lg:text-left"
-          >
-            <header class="uppercase mt-5 space-y-1">
-              <h3
-                id="role"
-                class="font-barlow text-gray-300 text-base transition-opacity"
-              >
-                {first.role}
-              </h3>
-              <h1 id="name" class="font-bellefair text-2xl transition-opacity">
-                {first.name}
-              </h1>
-            </header>
-            <p
-              id="bio"
-              class="font-barlow text-secondary mt-5 font-light transition-opacity"
-            >
-              {first.bio}
+          <div class="flex flex-col items-center gap-2 text-center uppercase lg:items-start lg:text-left">
+            <p id="role" class="font-bellefair text-lg leading-none text-white/50 md:text-2xl lg:text-[32px]">
+              {first.role}
             </p>
+            <h2 id="name" class="font-bellefair text-2xl leading-none text-white md:text-[40px] lg:text-[56px]">
+              {first.name}
+            </h2>
           </div>
+          <p id="bio" class="text-[15px] leading-[1.8] text-secondary md:text-base lg:text-lg">
+            {first.bio}
+          </p>
         </div>
-      </section>
+
+        <div
+          role="tablist"
+          aria-label="Crew members"
+          id="crew-tabs"
+          class="flex w-full cursor-pointer items-center justify-center gap-4 lg:justify-start lg:gap-10"
+        >
+          {
+            crew.map((member, i) => (
+              <button
+                type="button"
+                role="tab"
+                id={`tab-${i}`}
+                aria-controls="crew-panel"
+                aria-selected={i === 0}
+                aria-label={member.name}
+                tabindex={i === 0 ? 0 : -1}
+                class:list={[
+                  "size-[10px] shrink-0 rounded-full transition-colors lg:size-[15px]",
+                  i === 0 ? "bg-white" : "bg-white/25",
+                ]}
+              />
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="order-1 flex w-full items-end justify-center lg:order-2 lg:flex-1 lg:items-center">
+        <img
+          id="crew-img"
+          class="h-[340px] w-auto object-contain object-bottom transition-opacity md:h-[560px] lg:h-[676px]"
+          src={`${base}${first.images.png}`}
+          alt={`${first.name}, ${first.role}`}
+        />
+      </div>
     </div>
   </div>
 
@@ -124,7 +113,7 @@ const first = crew[0];
         panel.setAttribute("aria-labelledby", tabs[index].id);
         tabs.forEach((tab, i) => {
           tab.classList.toggle("bg-white", i === index);
-          tab.classList.toggle("bg-natural", i !== index);
+          tab.classList.toggle("bg-white/25", i !== index);
         });
       };
 

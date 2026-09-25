@@ -1,9 +1,9 @@
 ---
+import { base } from "../lib/base";
+
 interface Props {
   current: "home" | "destination" | "crew" | "technology";
 }
-
-import { base } from "../lib/base";
 
 const { current } = Astro.props;
 
@@ -25,81 +25,120 @@ const links = [
 ] as const;
 ---
 
-<nav class="h-20 relative flex justify-between items-center font-barlow">
-  <a href={base} class="ml-5">
-    <img class="w-9 sm:w-12" src={`${base}assets/shared/logo.svg`} alt="Space tourism home" />
-  </a>
+<nav class="relative isolate flex items-center pt-6 md:pt-0 lg:pt-10 font-condensed">
+  <div class="z-[2] -mr-8 flex flex-1 items-center gap-16 pl-6 md:max-w-[160px] md:pl-10 lg:max-w-none lg:pl-16">
+    <a href={base} aria-current={current === "home" ? "page" : undefined}>
+      <img class="size-10 md:size-12" src={`${base}assets/shared/logo.svg`} alt="Space tourism home" />
+    </a>
+    <div class="hidden h-px flex-1 bg-white/25 lg:block" aria-hidden="true"></div>
+  </div>
+
   <ul
     id="nav-list"
     class="
-      bg-white/10
-      backdrop-blur-xl
-      absolute
-      top-0
-      right-0
-      h-screen
-      w-7/12
-      pt-28
-      px-5
-      flex flex-col
-      gap-6
-      sm:flex sm:flex-row sm:bottom-0 sm:pt-7 sm:justify-center sm:h-auto
-      lg:gap-10
-      hidden
+      z-[1] hidden flex-1 items-center justify-end gap-12 overflow-hidden
+      bg-white/5 px-10 backdrop-blur-[40px]
+      md:flex md:min-w-[488px]
+      lg:min-w-[664px] lg:px-16
     "
   >
     {
       links.map((link) => (
-        <li
-          class:list={[
-            "uppercase sm:h-full",
-            link.id === current && "sm:border-b-2 sm:border-white",
-          ]}
-        >
+        <li>
           <a
-            class="font-medium sm:font-normal sm:text-sm"
             href={link.href}
             aria-current={link.id === current ? "page" : undefined}
+            class:list={[
+              "flex h-24 items-start gap-3 border-b-3 uppercase leading-none text-white whitespace-nowrap",
+              link.id === current ? "border-white" : "border-transparent",
+            ]}
           >
-            <span class="font-bold mr-4 md:mr-1 sm:hidden lg:inline">
-              {link.number}
-            </span>
-            {link.label}
+            <span class="text-base font-bold tracking-[2.7px]">{link.number}</span>
+            <span class="text-base tracking-[2px]">{link.label}</span>
           </a>
         </li>
       ))
     }
   </ul>
+
   <button
     id="nav-toggle"
     type="button"
-    class="z-10 cursor-pointer mr-5 sm:hidden grid place-items-center"
+    class="z-[2] mr-6 grid cursor-pointer place-items-center md:hidden"
     aria-expanded="false"
-    aria-controls="nav-list"
+    aria-controls="mobile-nav"
     aria-label="Menu"
   >
-    <img
-      id="nav-toggle-icon"
-      class="w-6 h-6"
-      src={`${base}assets/shared/icon-hamburger.svg`}
-      alt=""
-      aria-hidden="true"
-    />
+    <span class="sr-only">Menu</span>
+    <svg width="24" height="21" viewBox="0 0 24 21" fill="none" aria-hidden="true">
+      <rect width="24" height="3" fill="#D0D6F9" />
+      <rect y="9" width="24" height="3" fill="#D0D6F9" />
+      <rect y="18" width="24" height="3" fill="#D0D6F9" />
+    </svg>
   </button>
 </nav>
 
+<div
+  id="mobile-nav"
+  class="fixed inset-0 z-40 hidden flex-col items-end gap-12 bg-[rgba(11,13,23,0.95)] py-6 pl-8 backdrop-blur-[40px] md:hidden"
+  aria-hidden="true"
+>
+  <button
+    id="mobile-nav-close"
+    type="button"
+    class="mr-6 grid size-6 cursor-pointer place-items-center"
+    aria-label="Close menu"
+  >
+    <svg width="19" height="19" viewBox="0 0 19 19" fill="none" aria-hidden="true">
+      <line x1="1" y1="1" x2="18" y2="18" stroke="#D0D6F9" stroke-width="3" />
+      <line x1="18" y1="1" x2="1" y2="18" stroke="#D0D6F9" stroke-width="3" />
+    </svg>
+  </button>
+  <ul class="flex flex-col items-end gap-8 pr-8 font-condensed">
+    {
+      links.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            aria-current={link.id === current ? "page" : undefined}
+            class:list={[
+              "flex items-start gap-3 border-r-3 py-1 pr-6 uppercase leading-none text-white whitespace-nowrap",
+              link.id === current ? "border-white" : "border-transparent",
+            ]}
+          >
+            <span class="text-base font-bold tracking-[2.7px]">{link.number}</span>
+            <span class="text-base tracking-[2px]">{link.label}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
 <script>
-  import { base } from "../lib/base";
-
   const toggle = document.getElementById("nav-toggle") as HTMLButtonElement;
-  const navList = document.getElementById("nav-list") as HTMLUListElement;
-  const icon = document.getElementById("nav-toggle-icon") as HTMLImageElement;
+  const mobileNav = document.getElementById("mobile-nav") as HTMLDivElement;
+  const closeButton = document.getElementById("mobile-nav-close") as HTMLButtonElement;
 
-  toggle.addEventListener("click", () => {
-    const isOpen = navList.classList.toggle("hidden") === false;
-    toggle.setAttribute("aria-expanded", String(isOpen));
-    icon.src = isOpen
-      ? `${base}assets/shared/icon-close.svg`
-      : `${base}assets/shared/icon-hamburger.svg`;
+  function openMenu(): void {
+    mobileNav.classList.remove("hidden");
+    mobileNav.classList.add("flex");
+    mobileNav.setAttribute("aria-hidden", "false");
+    toggle.setAttribute("aria-expanded", "true");
+    closeButton.focus();
+  }
+
+  function closeMenu(): void {
+    mobileNav.classList.add("hidden");
+    mobileNav.classList.remove("flex");
+    mobileNav.setAttribute("aria-hidden", "true");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.focus();
+  }
+
+  toggle.addEventListener("click", openMenu);
+  closeButton.addEventListener("click", closeMenu);
+  mobileNav.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeMenu();
   });
 </script>
