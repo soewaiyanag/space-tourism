@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { base } from "../lib/base";
+---
+
+<BaseLayout
+  title="Home"
+  description="View the optimal layout for the Space tourism website, and see if you can master the art of travelling to outer space."
+  current="home"
+  bg="home"
+>
+  <div class="md:space-y-40">
+    <section class="container mx-auto space-y-12 px-10 md:grid md:grid-cols-2 xl:px-28">
+      <section class="text-center mt-10 md:text-left">
+        <header class="space-y-5">
+          <h5 class="font-barlow uppercase tracking-wider text-secondary">
+            So, you want to travel to
+          </h5>
+          <h1 class="uppercase text-[4rem] sm:text-7xl font-bellefair">Space</h1>
+        </header>
+        <p class="text-secondary sm:mt-5">
+          Let&rsquo;s face it; if you want to go to space, you might as well genuinely go to
+          outer space and not hover kind of on the edge of it. Well sit back, and relax
+          because we&rsquo;ll give you a truly out of this world experience!
+        </p>
+      </section>
+      <section class="grid md:justify-end md:items-end">
+        <a
+          href={`${base}destination`}
+          class="
+            cursor-pointer
+            select-none
+            mx-auto
+            grid
+            place-items-center
+            uppercase
+            font-bellefair font-medium
+            text-primary
+            h-40
+            sm:h-48
+            md:h-56
+            xl:h-60 xl:text-2xl
+            aspect-square
+            bg-white
+            transition-shadow
+            rounded-full
+            hover:shadow-xl-white
+          "
+        >
+          Explore
+        </a>
+      </section>
+    </section>
+  </div>
+</BaseLayout>

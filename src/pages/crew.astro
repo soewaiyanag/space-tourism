@@ -1,0 +1,136 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import data from "../data/data.json";
+import type { CrewMember } from "../types";
+import { base } from "../lib/base";
+
+const crew = data.crew as CrewMember[];
+const first = crew[0];
+---
+
+<BaseLayout
+  title="Crew"
+  description="Meet your crew. Get to know the team you'll be flying with."
+  current="crew"
+  bg="crew"
+>
+  <div class="pb-10 lg:min-h-screen lg:overflow-y-hidden">
+    <div class="container mx-auto px-4 sm:mt-10 xl:px-14">
+      <h1 class="uppercase font-barlow mb-8 text-center sm:text-left">
+        <span class="text-gray-500 mr-2" aria-hidden="true">02</span>
+        meet your crew
+      </h1>
+      <section class="sm:grid sm:gap-10 lg:grid-cols-2 lg:items-center lg:gap-0">
+        <div
+          class="
+            border-b border-natural
+            sm:order-1 sm:border-none sm:h-96 sm:grid
+            lg:relative
+          "
+        >
+          <img
+            id="crew-img"
+            class="
+              w-56
+              mx-auto
+              transition-opacity
+              sm:w-auto sm:h-full sm:object-cover sm:mt-auto
+              lg:w-full lg:object-contain lg:min-h-[80vh]
+            "
+            src={`${base}${first.images.png}`}
+            alt={`${first.name}, ${first.role}`}
+          />
+        </div>
+        <div class="sm:grid">
+          <div
+            role="tablist"
+            aria-label="Crew members"
+            id="crew-tabs"
+            class="flex gap-4 justify-center mt-5 sm:order-1 lg:justify-start lg:absolute lg:bottom-20"
+          >
+            {
+              crew.map((member, i) => (
+                <button
+                  type="button"
+                  role="tab"
+                  id={`tab-${i}`}
+                  aria-controls="crew-panel"
+                  aria-selected={i === 0}
+                  aria-label={member.name}
+                  tabindex={i === 0 ? 0 : -1}
+                  class:list={[
+                    "cursor-pointer inline-block h-3 aspect-square rounded-full",
+                    i === 0 ? "bg-white" : "bg-natural",
+                  ]}
+                />
+              ))
+            }
+          </div>
+          <div
+            id="crew-panel"
+            role="tabpanel"
+            aria-labelledby="tab-0"
+            class="text-center lg:text-left"
+          >
+            <header class="uppercase mt-5 space-y-1">
+              <h3
+                id="role"
+                class="font-barlow text-gray-300 text-base transition-opacity"
+              >
+                {first.role}
+              </h3>
+              <h1 id="name" class="font-bellefair text-2xl transition-opacity">
+                {first.name}
+              </h1>
+            </header>
+            <p
+              id="bio"
+              class="font-barlow text-secondary mt-5 font-light transition-opacity"
+            >
+              {first.bio}
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    import { initTablist } from "../scripts/tablist";
+    import data from "../data/data.json";
+    import type { CrewMember } from "../types";
+    import { base } from "../lib/base";
+
+    const crew = data.crew as CrewMember[];
+
+    document.addEventListener("astro:page-load", () => {
+      const tablist = document.getElementById("crew-tabs");
+      if (!tablist) return;
+
+      const img = document.getElementById("crew-img") as HTMLImageElement;
+      const name = document.getElementById("name")!;
+      const role = document.getElementById("role")!;
+      const bio = document.getElementById("bio")!;
+      const panel = document.getElementById("crew-panel")!;
+      const tabs = Array.from(
+        tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
+      );
+
+      function render(index: number): void {
+        const member = crew[index];
+        img.src = `${base}${member.images.png}`;
+        img.alt = `${member.name}, ${member.role}`;
+        name.textContent = member.name;
+        role.textContent = member.role;
+        bio.textContent = member.bio;
+        panel.setAttribute("aria-labelledby", tabs[index].id);
+        tabs.forEach((tab, i) => {
+          tab.classList.toggle("bg-white", i === index);
+          tab.classList.toggle("bg-natural", i !== index);
+        });
+      }
+
+      initTablist(tablist, render);
+    });
+  </script>
+</BaseLayout>

@@ -1,0 +1,113 @@
+---
+interface Props {
+  current: "home" | "destination" | "crew" | "technology";
+}
+
+import { base } from "../lib/base";
+
+const { current } = Astro.props;
+
+const links = [
+  { id: "home", number: "00", label: "Home", href: base },
+  {
+    id: "destination",
+    number: "01",
+    label: "Destination",
+    href: `${base}destination`,
+  },
+  { id: "crew", number: "02", label: "Crew", href: `${base}crew` },
+  {
+    id: "technology",
+    number: "03",
+    label: "Technology",
+    href: `${base}technology`,
+  },
+] as const;
+---
+
+<nav class="h-20 relative flex justify-between items-center font-barlow">
+  <a href={base} class="ml-5">
+    <img class="w-9 sm:w-12" src={`${base}assets/shared/logo.svg`} alt="Space tourism home" />
+  </a>
+  <ul
+    id="nav-list"
+    class="
+      bg-white/10
+      backdrop-blur-xl
+      absolute
+      top-0
+      right-0
+      h-screen
+      w-7/12
+      pt-28
+      px-5
+      flex flex-col
+      gap-6
+      sm:flex sm:flex-row sm:bottom-0 sm:pt-7 sm:justify-center sm:h-auto
+      lg:gap-10
+      hidden
+    "
+  >
+    {
+      links.map((link) => (
+        <li
+          class:list={[
+            "uppercase sm:h-full",
+            link.id === current && "sm:border-b-2 sm:border-white",
+          ]}
+        >
+          <a
+            class="font-medium sm:font-normal sm:text-sm"
+            href={link.href}
+            aria-current={link.id === current ? "page" : undefined}
+          >
+            <span class="font-bold mr-4 md:mr-1 sm:hidden lg:inline">
+              {link.number}
+            </span>
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <button
+    id="nav-toggle"
+    type="button"
+    class="z-10 cursor-pointer mr-5 sm:hidden grid place-items-center"
+    aria-expanded="false"
+    aria-controls="nav-list"
+    aria-label="Menu"
+  >
+    <img
+      id="nav-toggle-icon"
+      class="w-6 h-6"
+      src={`${base}assets/shared/icon-hamburger.svg`}
+      alt=""
+      aria-hidden="true"
+    />
+  </button>
+</nav>
+
+<script>
+  import { base } from "../lib/base";
+
+  const toggle = document.getElementById("nav-toggle") as HTMLButtonElement;
+  const navList = document.getElementById("nav-list") as HTMLUListElement;
+  const icon = document.getElementById("nav-toggle-icon") as HTMLImageElement;
+
+  toggle.addEventListener("click", () => {
+    const isOpen = navList.classList.toggle("hidden") === false;
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    icon.src = isOpen
+      ? `${base}assets/shared/icon-close.svg`
+      : `${base}assets/shared/icon-hamburger.svg`;
+  });
+
+  // Close the mobile menu automatically when a page transition kicks off,
+  // since the nav (and this listener) persist across navigations.
+  document.addEventListener("astro:before-preparation", () => {
+    navList.classList.add("hidden");
+    toggle.setAttribute("aria-expanded", "false");
+    icon.src = `${base}assets/shared/icon-hamburger.svg`;
+  });
+</script>

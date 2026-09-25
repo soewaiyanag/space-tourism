@@ -1,0 +1,79 @@
+---
+import { ClientRouter } from "astro:transitions";
+import Nav from "../components/Nav.astro";
+import { base } from "../lib/base";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  current: "home" | "destination" | "crew" | "technology";
+  bg: "home" | "destination" | "crew" | "technology";
+}
+
+const { title, description, current, bg } = Astro.props;
+
+const bgClasses: Record<Props["bg"], string> = {
+  home: "bg-home-mobile sm:bg-home-tablet md:bg-home-desktop",
+  destination: "bg-destination-mobile sm:bg-destination-tablet md:bg-destination-desktop",
+  crew: "bg-crew-mobile sm:bg-crew-tablet md:bg-crew-desktop",
+  technology: "bg-technology-mobile sm:bg-technology-tablet md:bg-technology-desktop",
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/png" sizes="32x32" href={`${base}assets/favicon-32x32.png`} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bellefair&family=Barlow:ital,wght@0,300;0,500;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title} | Space tourism</title>
+    <ClientRouter />
+  </head>
+  <body
+    class:list={[
+      "bg-black bg-no-repeat bg-cover bg-center bg-fixed text-white",
+      bgClasses[bg],
+    ]}
+  >
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:text-primary focus:px-4 focus:py-2 focus:rounded"
+    >
+      Skip to content
+    </a>
+
+    <div
+      id="warp-overlay"
+      class="warp-overlay pointer-events-none fixed inset-0 z-40"
+      aria-hidden="true"
+      transition:persist
+    >
+    </div>
+
+    <Nav current={current} transition:persist="nav" />
+
+    <main id="main" transition:name="page" class="overflow-x-hidden min-h-screen">
+      <slot />
+    </main>
+
+    <script>
+      const overlay = document.getElementById("warp-overlay");
+
+      document.addEventListener("astro:before-preparation", () => {
+        if (!overlay) return;
+        overlay.classList.remove("is-active");
+        // force reflow so the animation restarts on repeated navigations
+        void overlay.offsetWidth;
+        overlay.classList.add("is-active");
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,154 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import data from "../data/data.json";
+import type { Destination } from "../types";
+import { base } from "../lib/base";
+
+const destinations = data.destinations as Destination[];
+const first = destinations[0];
+---
+
+<BaseLayout
+  title="Destination"
+  description="Choose your destination. Here are some of the most exciting locations you can visit around our solar system."
+  current="destination"
+  bg="destination"
+>
+  <div class="container mx-auto px-2 sm:mt-10 xl:px-14">
+    <h1 class="uppercase font-barlow mb-8 text-center md:text-left">
+      <span class="text-gray-500 mr-2" aria-hidden="true">01</span>
+      pick your destination
+    </h1>
+    <section class="space-y-10 md:grid md:grid-cols-2">
+      <div class="md:grid md:place-items-center">
+        <img
+          id="planet-pic"
+          class="w-56 mx-auto md:w-[370px] transition-opacity"
+          src={`${base}${first.images.png}`}
+          alt={first.name}
+        />
+      </div>
+      <div class="text-center mx-4 space-y-8 md:text-left md:ml-8">
+        <div
+          role="tablist"
+          aria-label="Destinations"
+          id="destination-tabs"
+          class="cursor-pointer uppercase font-barlow text-secondary flex gap-8 justify-center md:justify-start"
+        >
+          {
+            destinations.map((d, i) => (
+              <button
+                type="button"
+                role="tab"
+                id={`tab-${d.name.toLowerCase()}`}
+                aria-controls="destination-panel"
+                aria-selected={i === 0}
+                tabindex={i === 0 ? 0 : -1}
+                class:list={[
+                  "select-none pb-2 border-b-2",
+                  i === 0 ? "border-white" : "border-transparent",
+                ]}
+              >
+                {d.name}
+              </button>
+            ))
+          }
+        </div>
+        <div
+          id="destination-panel"
+          role="tabpanel"
+          aria-labelledby={`tab-${first.name.toLowerCase()}`}
+          class="space-y-8"
+        >
+          <div class="space-y-2">
+            <h1
+              id="planet-name"
+              class="uppercase text-7xl font-bellefair transition-opacity"
+            >
+              {first.name}
+            </h1>
+            <p
+              id="about-planet"
+              class="text-secondary font-barlow transition-opacity"
+            >
+              {first.description}
+            </p>
+          </div>
+          <div
+            class="
+              space-y-8
+              border-t border-secondary
+              pt-8
+              pb-16
+              md:flex md:space-y-0 md:justify-start md:gap-10
+            "
+          >
+            <div class="space-y-2">
+              <h2 class="tracking-widest text-sm uppercase font-barlow text-secondary">
+                avg. distance
+              </h2>
+              <h1
+                id="travel-distance"
+                class="uppercase font-bellefair text-3xl md:text-2xl transition-opacity"
+              >
+                {first.distance}
+              </h1>
+            </div>
+            <div class="space-y-2">
+              <h2 class="tracking-widest text-sm uppercase font-barlow text-secondary">
+                est. travel time
+              </h2>
+              <h1
+                id="travel-time"
+                class="uppercase font-bellefair text-3xl md:text-2xl transition-opacity"
+              >
+                {first.travel}
+              </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    import { initTablist } from "../scripts/tablist";
+    import data from "../data/data.json";
+    import type { Destination } from "../types";
+    import { base } from "../lib/base";
+
+    const destinations = data.destinations as Destination[];
+
+    document.addEventListener("astro:page-load", () => {
+      const tablist = document.getElementById("destination-tabs");
+      if (!tablist) return;
+
+      const planetPic = document.getElementById("planet-pic") as HTMLImageElement;
+      const planetName = document.getElementById("planet-name")!;
+      const aboutPlanet = document.getElementById("about-planet")!;
+      const travelDistance = document.getElementById("travel-distance")!;
+      const travelTime = document.getElementById("travel-time")!;
+      const panel = document.getElementById("destination-panel")!;
+      const tabs = Array.from(
+        tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
+      );
+
+      function render(index: number): void {
+        const d = destinations[index];
+        planetPic.src = `${base}${d.images.png}`;
+        planetPic.alt = d.name;
+        planetName.textContent = d.name;
+        aboutPlanet.textContent = d.description;
+        travelDistance.textContent = d.distance;
+        travelTime.textContent = d.travel;
+        panel.setAttribute("aria-labelledby", tabs[index].id);
+        tabs.forEach((tab, i) => {
+          tab.classList.toggle("border-white", i === index);
+          tab.classList.toggle("border-transparent", i !== index);
+        });
+      }
+
+      initTablist(tablist, render);
+    });
+  </script>
+</BaseLayout>

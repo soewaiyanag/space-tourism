@@ -1,0 +1,130 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import data from "../data/data.json";
+import type { Technology } from "../types";
+import { base } from "../lib/base";
+
+const technology = data.technology as Technology[];
+const first = technology[0];
+---
+
+<BaseLayout
+  title="Technology"
+  description="The technology that gets you to space. Learn about the launch vehicle, spaceport, and space capsule."
+  current="technology"
+  bg="technology"
+>
+  <div class="mb-10">
+    <h1 class="uppercase font-barlow mb-8 text-center sm:text-left md:ml-20">
+      <span class="text-gray-500 mr-2" aria-hidden="true">03</span>
+      space launch 101
+    </h1>
+    <div class="md:items-center md:grid md:grid-cols-3">
+      <div class="order-1">
+        <img
+          id="landscape"
+          class="md:hidden w-full"
+          src={`${base}${first.images.landscape}`}
+          alt={`${first.name}, landscape view`}
+        />
+        <img
+          id="portrait"
+          class="hidden md:inline-block"
+          src={`${base}${first.images.portrait}`}
+          alt={`${first.name}, portrait view`}
+        />
+      </div>
+      <div class="md:ml-20 md:col-span-2 md:flex md:gap-5">
+        <div
+          role="tablist"
+          aria-label="Technology"
+          id="technology-tabs"
+          class="flex justify-center gap-5 mt-8 md:flex-col"
+        >
+          {
+            technology.map((_, i) => (
+              <button
+                type="button"
+                role="tab"
+                id={`tab-${i}`}
+                aria-controls="technology-panel"
+                aria-selected={i === 0}
+                aria-label={`Technology ${i + 1}`}
+                tabindex={i === 0 ? 0 : -1}
+                class:list={[
+                  "font-bellefair grid place-items-center aspect-square h-10 border-2 rounded-full transition-all",
+                  i === 0
+                    ? "bg-white text-black border-white"
+                    : "border-natural hover:border-white",
+                ]}
+              >
+                {i + 1}
+              </button>
+            ))
+          }
+        </div>
+        <div
+          id="technology-panel"
+          role="tabpanel"
+          aria-labelledby="tab-0"
+          class="text-center mt-5 px-5 md:text-left"
+        >
+          <header class="space-y-2">
+            <h3 class="uppercase font-barlow text-base text-secondary">
+              THE TERMINOLOGY&hellip;
+            </h3>
+            <h1 id="name" class="uppercase font-bellefair text-3xl md:text-4xl">
+              {first.name}
+            </h1>
+          </header>
+          <p id="description" class="mt-6 font-barlow text-secondary font-light">
+            {first.description}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import { initTablist } from "../scripts/tablist";
+    import data from "../data/data.json";
+    import type { Technology } from "../types";
+    import { base } from "../lib/base";
+
+    const technology = data.technology as Technology[];
+
+    document.addEventListener("astro:page-load", () => {
+      const tablist = document.getElementById("technology-tabs");
+      if (!tablist) return;
+
+      const landscape = document.getElementById("landscape") as HTMLImageElement;
+      const portrait = document.getElementById("portrait") as HTMLImageElement;
+      const name = document.getElementById("name")!;
+      const description = document.getElementById("description")!;
+      const panel = document.getElementById("technology-panel")!;
+      const tabs = Array.from(
+        tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
+      );
+
+      function render(index: number): void {
+        const item = technology[index];
+        landscape.src = `${base}${item.images.landscape}`;
+        landscape.alt = `${item.name}, landscape view`;
+        portrait.src = `${base}${item.images.portrait}`;
+        portrait.alt = `${item.name}, portrait view`;
+        name.textContent = item.name;
+        description.textContent = item.description;
+        panel.setAttribute("aria-labelledby", tabs[index].id);
+        tabs.forEach((tab, i) => {
+          const active = i === index;
+          tab.classList.toggle("bg-white", active);
+          tab.classList.toggle("text-black", active);
+          tab.classList.toggle("border-white", active);
+          tab.classList.toggle("border-natural", !active);
+        });
+      }
+
+      initTablist(tablist, render);
+    });
+  </script>
+</BaseLayout>
