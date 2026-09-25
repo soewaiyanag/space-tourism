@@ -26,10 +26,18 @@
   --background-image-technology-mobile: url("/space-tourism/assets/technology/background-technology-mobile.jpg");
   --background-image-technology-tablet: url("/space-tourism/assets/technology/background-technology-tablet.jpg");
   --background-image-technology-desktop: url("/space-tourism/assets/technology/background-technology-desktop.jpg");
+
+  --animate-planet-spin: planet-spin 60s linear infinite;
 }
 
 @layer base {
   body {
     background-color: var(--color-primary);
+  }
+}
+
+@keyframes planet-spin {
+  to {
+    transform: rotate(360deg);
   }
 }
