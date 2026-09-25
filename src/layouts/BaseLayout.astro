@@ -37,7 +37,7 @@ const bgClasses: Record<Props["bg"], string> = {
   </head>
   <body
     class:list={[
-      "bg-black bg-no-repeat bg-cover bg-center bg-fixed text-white",
+      "flex min-h-screen flex-col bg-black bg-no-repeat bg-cover bg-center bg-fixed text-white",
       bgClasses[bg],
     ]}
   >
@@ -50,7 +50,7 @@ const bgClasses: Record<Props["bg"], string> = {
 
     <Nav current={current} />
 
-    <main id="main" class="overflow-x-hidden min-h-screen">
+    <main id="main" class="flex flex-1 flex-col overflow-x-hidden">
       <slot />
     </main>
   </body>
