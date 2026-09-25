@@ -14,7 +14,7 @@ const first = crew[0];
   current="crew"
   bg="crew"
 >
-  <div class="flex flex-col items-start gap-6 p-6 md:p-10 lg:px-16 lg:py-12">
+  <div class="flex flex-1 flex-col items-start gap-6 p-6 md:p-10 lg:px-16 lg:py-12">
     <h1 class="flex w-full items-start justify-center gap-6 font-condensed uppercase tracking-[2.4px] text-white md:justify-start md:tracking-[3px] lg:justify-start lg:tracking-[4px]">
       <span class="text-[16px] font-bold text-white/25 md:text-[20px] lg:text-[28px]" aria-hidden="true">02</span>
       <span class="text-[16px] md:text-[20px] lg:text-[28px]">Meet your crew</span>
@@ -86,11 +86,14 @@ const first = crew[0];
 
   <script>
     import { initTablist } from "../scripts/tablist";
+    import { preloadImages } from "../scripts/preload";
     import data from "../data/data.json";
     import type { CrewMember } from "../types";
     import { base } from "../lib/base";
 
     const crew = data.crew as CrewMember[];
+
+    preloadImages(crew.slice(1).map((member) => `${base}${member.images.png}`));
 
     const tablist = document.getElementById("crew-tabs");
     if (tablist) {

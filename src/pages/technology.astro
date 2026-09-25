@@ -14,7 +14,7 @@ const first = technology[0];
   current="technology"
   bg="technology"
 >
-  <div class="flex flex-col items-start gap-8 py-6 md:py-10 lg:py-12">
+  <div class="flex flex-1 flex-col items-start gap-8 py-6 md:py-10 lg:py-12">
     <h1 class="flex w-full items-start justify-center gap-6 px-6 font-condensed uppercase tracking-[2.4px] text-white md:justify-start md:px-10 md:tracking-[3px] lg:justify-start lg:px-16 lg:tracking-[4px]">
       <span class="text-[16px] font-bold text-white/25 md:text-[20px] lg:text-[28px]" aria-hidden="true">03</span>
       <span class="text-[16px] md:text-[20px] lg:text-[28px]">Space launch 101</span>
@@ -85,11 +85,18 @@ const first = technology[0];
 
   <script>
     import { initTablist } from "../scripts/tablist";
+    import { preloadImages } from "../scripts/preload";
     import data from "../data/data.json";
     import type { Technology } from "../types";
     import { base } from "../lib/base";
 
     const technology = data.technology as Technology[];
+
+    preloadImages(
+      technology
+        .slice(1)
+        .flatMap((item) => [`${base}${item.images.landscape}`, `${base}${item.images.portrait}`]),
+    );
 
     const tablist = document.getElementById("technology-tabs");
     if (tablist) {
