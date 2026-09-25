@@ -1,23 +1,29 @@
 # Space Tourism
 
-A multi-page space tourism website — solution to the [Frontend Mentor Space tourism website challenge](https://www.frontendmentor.io/challenges/space-tourism-multipage-website-gRWj1URZ3), rebuilt on Astro with warp-style page transitions.
+A multi-page space tourism website built as a solution to the [Frontend Mentor "Space tourism website" challenge](https://www.frontendmentor.io/challenges/space-tourism-multipage-website-gRWj1URZ3).
 
-## Links
+**Live site:** https://soewaiyanag.github.io/space-tourism/
 
-- Live site: https://soewaiyanag.github.io/space-tourism/
-- Repo: https://github.com/soewaiyanag/space-tourism
+## About this project
 
-## Overview
+This started as a vanilla JavaScript + Webpack build, put together to practice core JS fundamentals — DOM manipulation, `fetch`, event handling, and bundler configuration without the help of a framework.
 
-Four pages — Home, Destination, Crew, Technology — with accessible tabbed content on the last three, and a hyperspace-jump animation between pages powered by the View Transitions API.
+It has since been rebuilt from the ground up on **Astro, TypeScript, and Tailwind CSS**, with the markup, spacing, and typography implemented directly from the challenge's Figma file rather than ported from the original build, to bring it fully in line with the source design and give it a proper portfolio-quality finish.
+
+## Features
+
+- Four pages — Home, Destination, Crew, Technology — matching the Figma design's mobile, tablet, and desktop layouts
+- Accessible tab components on Destination, Crew, and Technology: proper ARIA `tablist`/`tab`/`tabpanel` semantics with roving tabindex and arrow-key navigation
+- A responsive, accessible navigation bar with a keyboard- and screen-reader-friendly mobile menu
+- Hover-based page prefetching and tab-image preloading, so navigating and switching tabs feels instant
+- A subtle, `prefers-reduced-motion`-aware rotation on the destination planet image
 
 ## Built with
 
 - [Astro](https://astro.build/)
 - TypeScript
 - [Tailwind CSS v4](https://tailwindcss.com/)
-- Astro View Transitions (`<ClientRouter />`), with a custom warp-jump animation and full `prefers-reduced-motion` support
-- Semantic HTML, ARIA tablist pattern (roving tabindex, arrow-key navigation) for the tab components
+- Semantic HTML and WAI-ARIA patterns for all interactive components
 
 ## Running locally
 
