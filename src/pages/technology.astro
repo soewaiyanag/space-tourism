@@ -93,10 +93,8 @@ const first = technology[0];
 
     const technology = data.technology as Technology[];
 
-    document.addEventListener("astro:page-load", () => {
-      const tablist = document.getElementById("technology-tabs");
-      if (!tablist) return;
-
+    const tablist = document.getElementById("technology-tabs");
+    if (tablist) {
       const landscape = document.getElementById("landscape") as HTMLImageElement;
       const portrait = document.getElementById("portrait") as HTMLImageElement;
       const name = document.getElementById("name")!;
@@ -106,7 +104,7 @@ const first = technology[0];
         tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
       );
 
-      function render(index: number): void {
+      const render = (index: number): void => {
         const item = technology[index];
         landscape.src = `${base}${item.images.landscape}`;
         landscape.alt = `${item.name}, landscape view`;
@@ -122,9 +120,9 @@ const first = technology[0];
           tab.classList.toggle("border-white", active);
           tab.classList.toggle("border-natural", !active);
         });
-      }
+      };
 
       initTablist(tablist, render);
-    });
+    }
   </script>
 </BaseLayout>

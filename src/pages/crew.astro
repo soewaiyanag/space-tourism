@@ -103,10 +103,8 @@ const first = crew[0];
 
     const crew = data.crew as CrewMember[];
 
-    document.addEventListener("astro:page-load", () => {
-      const tablist = document.getElementById("crew-tabs");
-      if (!tablist) return;
-
+    const tablist = document.getElementById("crew-tabs");
+    if (tablist) {
       const img = document.getElementById("crew-img") as HTMLImageElement;
       const name = document.getElementById("name")!;
       const role = document.getElementById("role")!;
@@ -116,7 +114,7 @@ const first = crew[0];
         tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
       );
 
-      function render(index: number): void {
+      const render = (index: number): void => {
         const member = crew[index];
         img.src = `${base}${member.images.png}`;
         img.alt = `${member.name}, ${member.role}`;
@@ -128,9 +126,9 @@ const first = crew[0];
           tab.classList.toggle("bg-white", i === index);
           tab.classList.toggle("bg-natural", i !== index);
         });
-      }
+      };
 
       initTablist(tablist, render);
-    });
+    }
   </script>
 </BaseLayout>

@@ -119,10 +119,8 @@ const first = destinations[0];
 
     const destinations = data.destinations as Destination[];
 
-    document.addEventListener("astro:page-load", () => {
-      const tablist = document.getElementById("destination-tabs");
-      if (!tablist) return;
-
+    const tablist = document.getElementById("destination-tabs");
+    if (tablist) {
       const planetPic = document.getElementById("planet-pic") as HTMLImageElement;
       const planetName = document.getElementById("planet-name")!;
       const aboutPlanet = document.getElementById("about-planet")!;
@@ -133,7 +131,7 @@ const first = destinations[0];
         tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
       );
 
-      function render(index: number): void {
+      const render = (index: number): void => {
         const d = destinations[index];
         planetPic.src = `${base}${d.images.png}`;
         planetPic.alt = d.name;
@@ -146,9 +144,9 @@ const first = destinations[0];
           tab.classList.toggle("border-white", i === index);
           tab.classList.toggle("border-transparent", i !== index);
         });
-      }
+      };
 
       initTablist(tablist, render);
-    });
+    }
   </script>
 </BaseLayout>

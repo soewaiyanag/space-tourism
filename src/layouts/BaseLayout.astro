@@ -1,5 +1,4 @@
 ---
-import { ClientRouter } from "astro:transitions";
 import Nav from "../components/Nav.astro";
 import { base } from "../lib/base";
 import "../styles/global.css";
@@ -35,7 +34,6 @@ const bgClasses: Record<Props["bg"], string> = {
       rel="stylesheet"
     />
     <title>{title} | Space tourism</title>
-    <ClientRouter />
   </head>
   <body
     class:list={[
@@ -50,30 +48,10 @@ const bgClasses: Record<Props["bg"], string> = {
       Skip to content
     </a>
 
-    <div
-      id="warp-overlay"
-      class="warp-overlay pointer-events-none fixed inset-0 z-40"
-      aria-hidden="true"
-      transition:persist
-    >
-    </div>
+    <Nav current={current} />
 
-    <Nav current={current} transition:persist="nav" />
-
-    <main id="main" transition:name="page" class="overflow-x-hidden min-h-screen">
+    <main id="main" class="overflow-x-hidden min-h-screen">
       <slot />
     </main>
-
-    <script>
-      const overlay = document.getElementById("warp-overlay");
-
-      document.addEventListener("astro:before-preparation", () => {
-        if (!overlay) return;
-        overlay.classList.remove("is-active");
-        // force reflow so the animation restarts on repeated navigations
-        void overlay.offsetWidth;
-        overlay.classList.add("is-active");
-      });
-    </script>
   </body>
 </html>

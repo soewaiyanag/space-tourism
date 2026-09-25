@@ -102,12 +102,4 @@ const links = [
       ? `${base}assets/shared/icon-close.svg`
       : `${base}assets/shared/icon-hamburger.svg`;
   });
-
-  // Close the mobile menu automatically when a page transition kicks off,
-  // since the nav (and this listener) persist across navigations.
-  document.addEventListener("astro:before-preparation", () => {
-    navList.classList.add("hidden");
-    toggle.setAttribute("aria-expanded", "false");
-    icon.src = `${base}assets/shared/icon-hamburger.svg`;
-  });
 </script>
